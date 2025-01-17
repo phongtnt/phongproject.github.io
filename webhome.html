@@ -1,0 +1,57 @@
+</html><!DOCTYPE html>
+<html>
+<head>
+    <title>phongtnt</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="navbar">
+    <a herf="">trang chủ</a>
+    <a herf="">dự án</a>
+</div>
+<img scr="https://upanh.tv/image/WtbnHj"><img>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <ul id="rss-feed"></ul>
+
+    <script>
+        const rssUrl = 'https://dantri.com.vn/rss/khoa-hoc-cong-nghe.rss';
+
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`)
+            .then(response => response.json())
+            .then(data => {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(data.contents, "application/xml");
+                const items = xml.getElementsByTagName('item');
+                const feedList = document.getElementById('rss-feed');
+
+                for (let i = 0; i < items.length; i++) {
+                    const title = items[i].getElementsByTagName('title')[0].textContent;
+                    const link = items[i].getElementsByTagName('link')[0].textContent;
+
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+                    feedList.appendChild(listItem);
+                }
+            })
+            .catch(error => console.error('Error fetching RSS feed:', error));
+    </script>
+</body
